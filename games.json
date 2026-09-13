@@ -230,5 +230,20 @@
     "gameUrl": "files/gstrike/index.html",
     "imageUrl": "img/cstrike.jpg",
     "porter": "crackers"
+  },
+  {
+    "id": 33,
+    "name": "Lethal Company",
+    "gameUrl": "files/lethal/index.html",
+    "imageUrl": "img/lethal.jpg",
+    "porter": "crax",
+    "featured": true
+  },
+  {
+    "id": 34,
+    "name": "Crashout Crew",
+    "gameUrl": "files/cc/index.html",
+    "imageUrl": "img/cc.jpg",
+    "porter": "hvrts"
   }
 ]
