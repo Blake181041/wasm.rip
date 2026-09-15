@@ -245,5 +245,12 @@
     "gameUrl": "files/cc/index.html",
     "imageUrl": "img/cc.jpg",
     "porter": "x8r"
+  },
+   {
+    "id": 35,
+    "name": "Rimworld",
+    "gameUrl": "files/rimworld/index.html",
+    "imageUrl": "img/rim.png",
+    "porter": "sexyplankton"
   }
 ]
