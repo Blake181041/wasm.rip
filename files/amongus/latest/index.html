@@ -95,6 +95,8 @@
 
     async function fetchWithFallback(resource, options) {
       const url = typeof resource === "string" ? resource : resource.url;
+      const rewritten = rewriteToServer(url, false);
+      if (rewritten !== url) return browserFetch(rewritten, options);
       return url.startsWith(JSDELIVR)
         ? externalFetch(url, resource, options)
         : browserFetch(resource, options);
@@ -141,6 +143,8 @@
         const cleanUrl = target.split("?")[0].split("#")[0];
         if (assembledBundleUrl && cleanUrl.endsWith("/" + LARGE_BUNDLE)) {
           target = assembledBundleUrl;
+        } else {
+          target = rewriteToServer(target, false);
         }
         externalGet = /^(GET|HEAD)$/i.test(method) &&
           (target.startsWith(JSDELIVR) || target.startsWith("blob:"));
@@ -158,6 +162,46 @@
       return xhr;
     };
     window.XMLHttpRequest.prototype = BrowserXMLHttpRequest.prototype;
+
+    const overrideServer = new URLSearchParams(location.search).get("server");
+    let serverReplacement = null;
+    if (overrideServer) {
+      try { serverReplacement = new URL(overrideServer); } catch (e) {}
+    }
+
+    function toHttpProtocol(protocol) {
+      if (protocol === "ws:") return "http:";
+      if (protocol === "wss:") return "https:";
+      return protocol;
+    }
+
+    function toWsProtocol(protocol) {
+      if (protocol === "http:") return "ws:";
+      if (protocol === "https:") return "wss:";
+      return protocol;
+    }
+
+    function rewriteToServer(url, wantWs) {
+      if (!serverReplacement) return url;
+      let target;
+      try { target = new URL(url, location.href); } catch (e) { return url; }
+      if (target.protocol === "blob:") return url;
+      if (target.href.startsWith(JSDELIVR)) return url;
+      target.protocol = wantWs ? toWsProtocol(serverReplacement.protocol) : toHttpProtocol(serverReplacement.protocol);
+      target.host = serverReplacement.host;
+      return target.toString();
+    }
+
+    if (serverReplacement) {
+      const BrowserWebSocket = window.WebSocket;
+      window.WebSocket = function(url, protocols) {
+        const target = rewriteToServer(url, true);
+        return protocols !== undefined
+          ? new BrowserWebSocket(target, protocols)
+          : new BrowserWebSocket(target);
+      };
+      window.WebSocket.prototype = BrowserWebSocket.prototype;
+    }
 
     async function loadUnityLoader() {
       const url = BUILD + "/AmongUsWeb.loader.js";
