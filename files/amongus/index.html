@@ -91,18 +91,6 @@
         color: #aaa;
         font-size: 16px;
       }
-      .game-card.disabled {
-        opacity: 0.45;
-        cursor: default;
-        filter: grayscale(0.6);
-      }
-      .game-card.disabled:hover {
-        transform: none;
-        border-color: #333;
-      }
-      .game-card .wip-badge {
-        margin-left: 8px;
-      }
       footer {
         border-top: 1px solid #333;
         margin-top: 80px;
@@ -145,9 +133,8 @@
         {
           name: "Amongus 2026",
           imageUrl: "../../img/amongus.webp",
-          url: null,
+          url: "/files/amongus/latest/",
           desc: "Latest, updated il2cpp port of Among Us, with impostor servers, ported by shayder, q8j, and notrexed.",
-          wip: true,
         },
       ];
 
@@ -156,7 +143,6 @@
       games.forEach((game) => {
         const card = document.createElement("div");
         card.classList.add("game-card");
-        if (game.wip) card.classList.add("disabled");
 
         const img = document.createElement("img");
         img.src = game.imageUrl;
@@ -168,12 +154,6 @@
         const title = document.createElement("div");
         title.classList.add("game-title");
         title.textContent = game.name;
-        if (game.wip) {
-          const badge = document.createElement("span");
-          badge.classList.add("wip-badge");
-          badge.textContent = "W.I.P";
-          title.appendChild(badge);
-        }
 
         const desc = document.createElement("div");
         desc.classList.add("game-desc");
@@ -186,7 +166,7 @@
 
         if (game.url) {
           card.addEventListener("click", () => {
-            window.open(game.url, "_blank");
+            window.location.href = game.url;
           });
         }
 
