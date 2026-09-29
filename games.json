@@ -252,5 +252,27 @@
     "gameUrl": "files/rimworld/index.html",
     "imageUrl": "img/rim.png",
     "porter": "sexyplankton"
+  },
+  {
+    "id": 36,
+    "name": "The Message From Deep space",
+    "gameUrl": "files/TMFDS/index.html",
+    "imageUrl": "img/tmfds.png",
+    "porter": "dasher"
+  },
+  {
+    "id": 37,
+    "name": "Dude, Stop",
+    "gameUrl": "files/dudestop/index.html",
+    "imageUrl": "img/dudestop.webp",
+    "porter": "dasher"
+  },
+  {
+    "id": 38,
+    "name": "Kerbal Space Program",
+    "gameUrl": "https://ksp.ishotupa.school/",
+    "imageUrl": "img/ksp.jpg",
+    "porter": "crackers",
+    "featured": true
   }
 ]
